@@ -19,20 +19,29 @@ public class GenerateServlet extends HttpServlet {
     private static void log(String s, Object... args) {
         logger.info(String.format(s, args));
     }
-    
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        JSONObject error = new JSONObject();
+        JSONObject success = new JSONObject();
         try {
-            JSONObject ret = new JSONObject();
+            error.put("success", false);
+            success.put("success", true);
+        }
+        catch (Exception ex) {
+        }
+        
+        try {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
             keyGen.initialize(512);
             KeyPair pair = keyGen.genKeyPair();
-            ret.put("public", Base64.encode(pair.getPublic().getEncoded()));
-            ret.put("private", Base64.encode(pair.getPrivate().getEncoded()));
+            success.put("public_key", Base64.encode(pair.getPublic().getEncoded()));
+            success.put("private_key", Base64.encode(pair.getPrivate().getEncoded()));
             
-            resp.getOutputStream().write(ret.toString().getBytes());
+            resp.getOutputStream().write(success.toString().getBytes());
         }
         catch (Exception ex) {
+            resp.getOutputStream().write(error.toString().getBytes());
             log("Error: %s", ex);
         }
     }
