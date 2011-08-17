@@ -12,6 +12,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>VerifyServlet</servlet-name>
 		<url-pattern>/verify</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>GenerateServlet</servlet-name>
+		<servlet-class>com.clockworkmod.billing.GenerateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GenerateServlet</servlet-name>
+		<url-pattern>/generate</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
